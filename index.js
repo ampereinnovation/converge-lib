@@ -202,7 +202,7 @@ Converge.prototype.collectPaymentByToken = function (token, amount, invoiceNumbe
     return deferred.promise;
 };
 
-Converge.prototype.verifyCard = function (cardNumber, expirationMonth, expirationYear, cvv ) {
+Converge.prototype.verifyCard = function (cardNumber, expirationMonth, expirationYear, cvv, address) {
     var deferred = Q.defer();
     //build txn node
     var xmlTransaction = '';
@@ -219,6 +219,7 @@ Converge.prototype.verifyCard = function (cardNumber, expirationMonth, expiratio
     xmlTransaction += '<ssl_result_format>HTML</ssl_result_format>\n';
     xmlTransaction += '<ssl_cvv2cvc2_indicator>1</ssl_cvv2cvc2_indicator>\n';
     xmlTransaction += '<ssl_cvv2cvc2>' + cvv + '</ssl_cvv2cvc2>\n';
+    xmlTransaction += '<ssl_avs_address>' + address + '</ssl_avs_address>\n';
     xmlTransaction += '</txn>\n';
 
     var urlToPost = this.ssl_test_mode ? testURL : productionURL;
