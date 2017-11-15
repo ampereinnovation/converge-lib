@@ -20,7 +20,7 @@ function Converge(merchantId, userId, pin, testMode) {
 }
 
 
-Converge.prototype.collectPayment = function (firstName, lastName, email, cardNumber, expirationMonth, expirationYear, cvv, amount, invoiceNumber, description) {
+Converge.prototype.collectPayment = function (firstName, lastName, email, cardNumber, expirationMonth, expirationYear, cvv, amount, invoiceNumber, description, params) {
 
     var deferred = Q.defer();
     //build txn node
@@ -44,6 +44,7 @@ Converge.prototype.collectPayment = function (firstName, lastName, email, cardNu
     xmlTransaction += '<ssl_last_name>' + lastName + '</ssl_last_name>\n';
     xmlTransaction += '<ssl_email>' + email + '</ssl_email>\n';
     xmlTransaction += '<ssl_invoice_number>' + invoiceNumber + '</ssl_invoice_number>\n';
+    
     xmlTransaction += '</txn>\n';
 
 
@@ -137,7 +138,9 @@ Converge.prototype.generateToken = function (firstName, lastName, email, cardNum
     xmlTransaction += '<ssl_first_name>' + firstName + '</ssl_first_name>\n';
     xmlTransaction += '<ssl_last_name>' + lastName + '</ssl_last_name>\n';
     xmlTransaction += '<ssl_email>' + email + '</ssl_email>\n';
-
+    Object.entries(params).forEach(entry => {
+      xmlTransaction += `<${entry[0]}>${entry[1]}</${entry[0]}>\n`
+    })
     xmlTransaction += '</txn>\n';
 
 
