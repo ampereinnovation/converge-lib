@@ -118,7 +118,7 @@ Converge.prototype.collectPaymentwithoutCVV = function (firstName, lastName, ema
     return deferred.promise;
 };
 
-Converge.prototype.generateToken = function (firstName, lastName, email, cardNumber, expirationMonth, expirationYear, cvv) {
+Converge.prototype.generateToken = function (firstName, lastName, email, cardNumber, expirationMonth, expirationYear, cvv, params) {
     var deferred = Q.defer();
     //build txn node
     var xmlTransaction = '';
