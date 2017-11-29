@@ -44,7 +44,7 @@ Converge.prototype.collectPayment = function (firstName, lastName, email, cardNu
     xmlTransaction += '<ssl_last_name>' + lastName + '</ssl_last_name>\n';
     xmlTransaction += '<ssl_email>' + email + '</ssl_email>\n';
     xmlTransaction += '<ssl_invoice_number>' + invoiceNumber + '</ssl_invoice_number>\n';
-    
+
     xmlTransaction += '</txn>\n';
 
 
@@ -185,6 +185,37 @@ Converge.prototype.collectPaymentByToken = function (token, amount, invoiceNumbe
     xmlTransaction += '<ssl_invoice_number>' + invoiceNumber + '</ssl_invoice_number>\n';
     xmlTransaction += '</txn>\n';
 
+    var urlToPost = this.ssl_test_mode ? testURL : productionURL;
+    request.post({
+        url: urlToPost,
+        form: xmlTransaction
+    }, function (error, response, body) {
+        if (error) {
+            return deferred.reject(error);
+        }
+        xml2js.parseString(body, function (err, results) {
+            if (err) {
+                return deferred.reject(err);
+            }
+            //clean the arrays
+            results = cleanXML(results);
+            return deferred.resolve(results);
+        });
+    });
+    return deferred.promise;
+};
+
+Converge.prototype.refund = function (token, amount) {
+    var deferred = Q.defer();
+    var xmlTransaction = '';
+    xmlTransaction += 'xmldata=<txn>\n';
+    xmlTransaction += '<ssl_merchant_id>' + this.ssl_merchant_id + '</ssl_merchant_id>\n';
+    xmlTransaction += '<ssl_user_id>' + this.ssl_user_id + '</ssl_user_id>\n';
+    xmlTransaction += '<ssl_pin>' + this.ssl_pin + '</ssl_pin>\n';
+    xmlTransaction += '<ssl_test_mode>' + this.ssl_test_mode + '</ssl_test_mode>\n';
+    xmlTransaction += '<ssl_token>' + token + '</ssl_token>\n';
+    xmlTransaction += '<ssl_amount>' + amount + '</ssl_amount>\n';
+    xmlTransaction += '</txn>\n';
     var urlToPost = this.ssl_test_mode ? testURL : productionURL;
     request.post({
         url: urlToPost,
