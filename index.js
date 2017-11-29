@@ -213,6 +213,7 @@ Converge.prototype.refund = function (token, amount) {
     xmlTransaction += '<ssl_user_id>' + this.ssl_user_id + '</ssl_user_id>\n';
     xmlTransaction += '<ssl_pin>' + this.ssl_pin + '</ssl_pin>\n';
     xmlTransaction += '<ssl_test_mode>' + this.ssl_test_mode + '</ssl_test_mode>\n';
+    xmlTransaction += '<ssl_transaction_type>cccredit</ssl_transaction_type>'
     xmlTransaction += '<ssl_token>' + token + '</ssl_token>\n';
     xmlTransaction += '<ssl_amount>' + amount + '</ssl_amount>\n';
     xmlTransaction += '</txn>\n';
