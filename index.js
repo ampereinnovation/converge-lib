@@ -138,9 +138,11 @@ Converge.prototype.generateToken = function (firstName, lastName, email, cardNum
     xmlTransaction += '<ssl_first_name>' + firstName + '</ssl_first_name>\n';
     xmlTransaction += '<ssl_last_name>' + lastName + '</ssl_last_name>\n';
     xmlTransaction += '<ssl_email>' + email + '</ssl_email>\n';
-    Object.entries(params).forEach(entry => {
-      xmlTransaction += `<${entry[0]}>${entry[1]}</${entry[0]}>\n`
-    })
+    if(params) {
+      Object.entries(params).forEach(entry => {
+        xmlTransaction += `<${entry[0]}>${entry[1]}</${entry[0]}>\n`
+      })
+    }
     xmlTransaction += '</txn>\n';
 
 
@@ -254,9 +256,11 @@ Converge.prototype.verifyCard = function (cardNumber, expirationMonth, expiratio
     xmlTransaction += '<ssl_result_format>HTML</ssl_result_format>\n';
     xmlTransaction += '<ssl_cvv2cvc2_indicator>1</ssl_cvv2cvc2_indicator>\n';
     xmlTransaction += '<ssl_cvv2cvc2>' + cvv + '</ssl_cvv2cvc2>\n';
-    Object.entries(params).forEach(entry => {
-      xmlTransaction += `<${entry[0]}>${entry[1]}</${entry[0]}>\n`
-    })
+    if(params) {
+      Object.entries(params).forEach(entry => {
+        xmlTransaction += `<${entry[0]}>${entry[1]}</${entry[0]}>\n`
+      })
+    }
     xmlTransaction += '</txn>\n';
 
     var urlToPost = this.ssl_test_mode ? testURL : productionURL;
